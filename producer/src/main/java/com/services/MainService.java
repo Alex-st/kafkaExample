@@ -9,7 +9,5 @@ import java.util.List;
  */
 public interface MainService {
 
-    UserDto getUserDataById(long id);
-    List<UserDto> getAllUsers();
-    long saveUser(UserDto dto);
+    void putUser(UserDto dto);
 }
