@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class MapStorageServiceImpl implements StorageService {
 
-    private static Map<Long, UserModel> storageMap = new HashMap<>();
+    private static Map<Long, UserModel> storageMap = new ConcurrentHashMap<>();
 
     static {
         storageMap.put(0L, new UserModel(0, "Default string"));

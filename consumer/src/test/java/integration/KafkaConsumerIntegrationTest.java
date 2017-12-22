@@ -1,7 +1,7 @@
 package integration;
 
 import com.dto.UserModel;
-import com.services.KafkaConsumerService;
+import com.services.StorageService;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.Before;
@@ -17,12 +17,15 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.kafka.test.rule.KafkaEmbedded;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
-import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 
 /**
  * Created by alex on 23.10.17.
@@ -43,7 +46,7 @@ public class KafkaConsumerIntegrationTest {
     private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
 
     @Autowired
-    private KafkaConsumerService consumerService;
+    private StorageService storageService;
 
     @Before
     public void setUp() throws Exception {
@@ -75,6 +78,13 @@ public class KafkaConsumerIntegrationTest {
         UserModel userModel = createUserModel();
         template.sendDefault(userModel);
 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        List<UserModel> receivedUsers = storageService.getAllUsers();
+        assertThat(receivedUsers, hasSize(2));
     }
 
     private UserModel createUserModel() {
