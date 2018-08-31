@@ -1,7 +1,7 @@
 package integration;
 
 import com.dto.UserModel;
-import com.services.StorageService;
+import com.services.storage.StorageService;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.Before;
@@ -21,11 +21,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
+import static org.awaitility.Awaitility.await;
 
 /**
  * Created by alex on 23.10.17.
@@ -78,13 +77,8 @@ public class KafkaConsumerIntegrationTest {
         UserModel userModel = createUserModel();
         template.sendDefault(userModel);
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        List<UserModel> receivedUsers = storageService.getAllUsers();
-        assertThat(receivedUsers, hasSize(2));
+        await().atMost(2, TimeUnit.SECONDS)
+                .until(() -> storageService.getAllUsers().size() == 2);
     }
 
     private UserModel createUserModel() {

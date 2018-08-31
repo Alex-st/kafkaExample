@@ -2,7 +2,7 @@ package com.configuration;
 
 import com.dto.UserDto;
 import com.services.MainService;
-import com.services.impl.MainServiceImpl;
+import com.services.storage.MainServiceImpl;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

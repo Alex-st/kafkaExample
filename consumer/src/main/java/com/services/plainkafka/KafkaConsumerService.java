@@ -1,4 +1,4 @@
-package com.services;
+package com.services.plainkafka;
 
 import com.dto.UserModel;
 

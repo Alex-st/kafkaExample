@@ -1,4 +1,4 @@
-package com.services.impl;
+package com.services.storage;
 
 import com.dto.UserDto;
 import com.services.MainService;

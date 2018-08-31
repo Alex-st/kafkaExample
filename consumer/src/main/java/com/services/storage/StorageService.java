@@ -1,4 +1,4 @@
-package com.services;
+package com.services.storage;
 
 import com.dto.UserModel;
 

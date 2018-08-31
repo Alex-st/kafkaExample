@@ -1,8 +1,7 @@
-package com.services.impl;
+package com.services.plainkafka;
 
 import com.dto.UserModel;
-import com.services.KafkaConsumerService;
-import com.services.StorageService;
+import com.services.storage.StorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
