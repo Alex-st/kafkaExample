@@ -14,9 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.MessageListener;
-import org.springframework.kafka.listener.config.ContainerProperties;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
+import org.springframework.kafka.test.rule.EmbeddedKafkaRule;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.kafka.test.utils.KafkaTestUtils;
 import org.springframework.test.annotation.DirtiesContext;
@@ -43,7 +43,7 @@ public class KafkaProducerIntegrationTest {
     private static final String KAFKA_TOPIC = "testtopic";
 
     @ClassRule
-    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, KAFKA_TOPIC);
+    public static EmbeddedKafkaRule embeddedKafka = new EmbeddedKafkaRule(1, true, KAFKA_TOPIC);
 
     @Autowired
     private MainService mainService;
@@ -56,7 +56,7 @@ public class KafkaProducerIntegrationTest {
     public void setUp() throws Exception {
         // set up the Kafka consumer properties
         Map<String, Object> consumerProperties =
-                KafkaTestUtils.consumerProps("sender", "false", embeddedKafka);
+                KafkaTestUtils.consumerProps("sender", "false", embeddedKafka.getEmbeddedKafka());
 
         // create a Kafka consumer factory
         DefaultKafkaConsumerFactory<String, UserDto> consumerFactory =
@@ -82,7 +82,7 @@ public class KafkaProducerIntegrationTest {
         container.start();
 
         // wait until the container has the required number of assigned partitions
-        ContainerTestUtils.waitForAssignment(container, embeddedKafka.getPartitionsPerTopic());
+        ContainerTestUtils.waitForAssignment(container, embeddedKafka.getEmbeddedKafka().getPartitionsPerTopic());
     }
 
     @Test

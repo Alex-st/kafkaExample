@@ -16,7 +16,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4.RELEASE</version>
+        <version>2.1.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -31,10 +31,11 @@
         <httpclient.version>4.5.1</httpclient.version>
         <slf4j.version>1.7.18</slf4j.version>
         <apache.commons.version>3.5</apache.commons.version>
-		<jackson-datatype>2.8.8</jackson-datatype>
-		<spring-kafka.version>1.2.2.RELEASE</spring-kafka.version>
-        <kafka-streams.version>0.11.0.0</kafka-streams.version>
-		<awaitility.version>3.0.0</awaitility.version>
+        <apache.kafka.streams>2.1.0</apache.kafka.streams>
+		<jackson-datatype>2.9.4</jackson-datatype>
+		<spring-kafka.version>2.2.2.RELEASE</spring-kafka.version>
+        <awaitility.version>3.0.0</awaitility.version>
+
     </properties>
 	
 	<dependencyManagement>
@@ -53,6 +54,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+            <version>${apache.kafka.streams}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
@@ -64,12 +71,6 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-streams</artifactId>
-            <version>${kafka-streams.version}</version>
-       </dependency>
 
         <dependency>
             <groupId>org.springframework.kafka</groupId>
@@ -102,7 +103,6 @@
             <version>${awaitility.version}</version>
             <scope>test</scope>
         </dependency>
-
 		</dependencies>
 	</dependencyManagement>
 	

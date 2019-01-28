@@ -4,6 +4,7 @@ import com.dto.UserModel;
 import com.services.storage.StorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class KafkaConsumerServiceImpl implements KafkaConsumerService {
+@Profile("plain")
+public class PlainKafkaConsumerServiceImpl implements KafkaConsumerService {
 
     @Autowired
     StorageService storageService;

@@ -15,7 +15,7 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
+import org.springframework.kafka.test.rule.EmbeddedKafkaRule;
 import org.springframework.kafka.test.utils.ContainerTestUtils;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -37,7 +37,7 @@ public class KafkaConsumerIntegrationTest {
     private static final String KAFKA_TOPIC = "testtopic";
 
     @ClassRule
-    public static KafkaEmbedded embeddedKafka = new KafkaEmbedded(1, true, KAFKA_TOPIC);
+    public static EmbeddedKafkaRule embeddedKafka = new EmbeddedKafkaRule(1, true, KAFKA_TOPIC);
 
     private KafkaTemplate<String, UserModel> template;
 
@@ -52,7 +52,7 @@ public class KafkaConsumerIntegrationTest {
         // set up the Kafka producer properties
         Map<String, Object> senderProperties = new HashMap<>();
         // list of host:port pairs used for establishing the initial connections to the Kakfa cluster
-        senderProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafka.getBrokersAsString());
+        senderProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, embeddedKafka.getEmbeddedKafka().getBrokersAsString());
         senderProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         senderProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         
@@ -69,7 +69,7 @@ public class KafkaConsumerIntegrationTest {
         // wait until the partitions are assigned
         ContainerTestUtils.waitForAssignment(
                 kafkaListenerEndpointRegistry.getListenerContainers().iterator().next(),
-                embeddedKafka.getPartitionsPerTopic());
+                embeddedKafka.getEmbeddedKafka().getPartitionsPerTopic());
     }
 
     @Test

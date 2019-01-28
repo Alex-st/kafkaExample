@@ -6,11 +6,9 @@ import lombok.*;
 /**
  * Created by Oleksandr on 6/16/2017.
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {

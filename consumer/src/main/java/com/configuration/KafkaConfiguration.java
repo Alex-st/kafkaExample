@@ -6,6 +6,7 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
@@ -21,6 +22,7 @@ import java.util.Map;
  * Created by alex on 21.10.17.
  */
 @Configuration
+@Profile("plain")
 @EnableKafka
 public class KafkaConfiguration {
 
@@ -28,9 +30,6 @@ public class KafkaConfiguration {
 
     @Value("${kafka.bootstrap-servers}")
     private String bootstrapServers;
-
-    @Value("${kafka.topic}")
-    private String topic;
 
     @Bean
     public Map<String, Object> consumerConfigs() {
