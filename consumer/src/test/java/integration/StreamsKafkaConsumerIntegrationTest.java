@@ -33,8 +33,8 @@ import static org.awaitility.Awaitility.await;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = com.Main.class)
 @DirtiesContext
-@ActiveProfiles("plain")
-public class KafkaConsumerIntegrationTest {
+@ActiveProfiles("stream")
+public class StreamsKafkaConsumerIntegrationTest {
 
     private static final String KAFKA_TOPIC = "testtopic";
 
@@ -68,10 +68,7 @@ public class KafkaConsumerIntegrationTest {
         // set the default topic to send to
         template.setDefaultTopic(KAFKA_TOPIC);
 
-        // wait until the partitions are assigned
-        ContainerTestUtils.waitForAssignment(
-                kafkaListenerEndpointRegistry.getListenerContainers().iterator().next(),
-                embeddedKafka.getEmbeddedKafka().getPartitionsPerTopic());
+
     }
 
     @Test
@@ -79,7 +76,7 @@ public class KafkaConsumerIntegrationTest {
         UserModel userModel = createUserModel();
         template.sendDefault(userModel);
 
-        await().atMost(2, TimeUnit.SECONDS)
+        await().atMost(5, TimeUnit.SECONDS)
                 .until(() -> storageService.getAllUsers().size() == 2);
     }
 

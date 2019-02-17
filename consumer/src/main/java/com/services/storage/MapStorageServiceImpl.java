@@ -17,7 +17,7 @@ public class MapStorageServiceImpl implements StorageService {
     private static Map<Long, UserModel> storageMap = new ConcurrentHashMap<>();
 
     static {
-        storageMap.put(0L, new UserModel(0, "Default string"));
+        storageMap.put(0L, new UserModel(0L, "Default string"));
     }
 
     @Override
@@ -30,6 +30,7 @@ public class MapStorageServiceImpl implements StorageService {
     }
 
     @Override
+    //TODO refactor
     public long putData(UserModel userModel) {
         storageMap.put(userModel.getId(), userModel);
         UserModel result = storageMap.get(userModel.getId());
